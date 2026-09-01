@@ -86,11 +86,6 @@ h4{font-size:.98rem}
 .skip:focus{left:14px;top:14px;z-index:99;background:var(--ink);color:#fff;
   padding:9px 13px;border-radius:var(--r-sm)}
 
-/* ---------------- notices ---------------- */
-.draft{background:var(--red-tint);border-bottom:1px solid #F0D9D4;color:#8E3225;padding:9px 0}
-.draft .wrap{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;font-size:12.5px}
-.draft b{font-weight:600}
-
 
 /* ---------------- header ---------------- */
 header.site{
@@ -505,12 +500,6 @@ nav.main a:hover{color:var(--ink);background:var(--sunk-2);text-decoration:none}
   nav.main::-webkit-scrollbar{display:none}
   nav.main a{padding:6px 8px;font-size:13.5px}
 }
-
-/* draft notice — one slim line under the bar, gone the moment draft:false */
-.draft{background:var(--red-tint);border-bottom:1px solid #F0D9D4;color:#8E3225;padding:7px 0}
-.draft .wrap{display:block;font-size:12.5px;line-height:1.45;padding-left:28px;padding-right:28px}
-.draft b{font-weight:600}
-@media (max-width:640px){.draft .wrap{padding-left:18px;padding-right:18px}}
 
 /* independence disclosure now sits in the hero, not in the chrome */
 .disclose{

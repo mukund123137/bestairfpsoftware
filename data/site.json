@@ -9,7 +9,6 @@
   "tagline": "Every score has a receipt.",
   "description": "Independent, evidence-first rankings of AI RFP response, proposal and security-questionnaire software. Every score traces to a dated, archived source.",
   "draft": true,
-  "draftNote": "placeholder data. Scores, prices and claims are not yet reviewed, and the site stays noindex until data/site.json sets \"draft\": false.",
   "operator": {
     "name": "[Operator Ltd]",
     "disclosure": "This site is operated by [Operator Ltd]. Tools affiliated with the operator are flagged on every page, scored by an outside reviewer, and can be removed from every ranking with one click.",

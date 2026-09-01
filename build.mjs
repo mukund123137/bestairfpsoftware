@@ -218,7 +218,6 @@ ${noindex ? '<meta name="robots" content="noindex,nofollow">' : '<meta name="rob
   </nav>
   <div class="hdr-actions"><a class="btn sm" href="/shortlist/" data-shortlist-count>Shortlist</a></div>
 </div></header>
-${site.draft ? `<div class="draft"><div class="wrap"><b>Draft build</b> — ${esc(site.draftNote)}</div></div>` : ''}
 <main id="main">${body}</main>
 <footer class="site"><div class="wrap">
   <div class="fgrid">
@@ -741,7 +740,7 @@ ${sitemapUrls.map(u => `  <url><loc>${site.origin}${u}</loc><lastmod>${NOW}</las
 </urlset>`);
 
 await writeFile(join(OUT, 'robots.txt'), site.draft
-  ? `User-agent: *\nDisallow: /\n# Draft build — set "draft": false in data/site.json before launch.\n`
+  ? `User-agent: *\nDisallow: /\n`
   : `User-agent: *\nAllow: /\n\nSitemap: ${site.origin}/sitemap.xml\n`);
 
 await writeFile(join(OUT, 'llms.txt'),

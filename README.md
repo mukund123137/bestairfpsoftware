@@ -30,7 +30,11 @@ side and never blended.
 * every page emits `noindex,nofollow`
 * `robots.txt` disallows everything
 * the sitemap is empty
-* a red banner appears on every page
+* the build prints a warning in the terminal
+
+Draft mode is invisible to visitors by design — no banner, no notice, nothing
+in the markup. The only signal is in your build output, so check it before you
+assume a deploy is indexable.
 
 **All scores, prices and claims in `data/tools.json` are placeholders.** They exist so
 the templates render. Do not set `draft: false` until real reviewers have produced real
