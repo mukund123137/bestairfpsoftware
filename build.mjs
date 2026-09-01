@@ -70,7 +70,7 @@ function scoreBlock(t, cap) {
   <div>
     <div class="lbl">Scorecard</div>
     <div class="subscore">${RUB.map(r =>
-      `${esc(r.label.toLowerCase())} <b>${t.scores[r.key].toFixed(1)}</b>`).join('<br>')}</div>
+      `<span>${esc(r.label.toLowerCase())} <b>${t.scores[r.key].toFixed(1)}</b></span>`).join('')}</div>
   </div>`;
 }
 
@@ -89,7 +89,7 @@ function entryCard(t, pos, baseRank) {
 <article class="entry" id="${esc(t.slug)}" data-slug="${esc(t.slug)}" data-base-rank="${baseRank}"
   ${RUB.map(r => `data-${r.key}="${t.scores[r.key]}"`).join(' ')}>
   <div class="hd">
-    <div class="rank${pos === 1 ? '' : ' n'}"><div class="d">${pad(pos)}</div><div class="mv">–</div></div>
+    <div class="rankwrap"><div class="rank${pos === 1 ? '' : ' n'}"><span class="d">${pad(pos)}</span></div><span class="mv"></span></div>
     <div class="who">
       <h3><a href="/tools/${esc(t.slug)}/">${esc(t.name)}</a></h3>
       <div class="sub">${esc(t.oneLiner)}</div>
@@ -203,7 +203,7 @@ ${noindex ? '<meta name="robots" content="noindex,nofollow">' : '<meta name="rob
 <meta name="author" content="${esc(site.name)}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=DM+Mono:wght@400;500&family=Literata:opsz,wght@7..72,400;7..72,500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
 <link rel="stylesheet" href="/theme.css">
 <script type="application/ld+json">${JSON.stringify(ld)}</script>
 </head><body>
@@ -214,7 +214,7 @@ ${site.draft ? `<div class="draft"><div class="wrap"><b>DRAFT BUILD</b><span>${e
   <a class="btn quiet sm" href="/ledger/">Read the ledger</a>
 </div></div>
 <header class="site"><div class="wrap">
-  <a class="mark" href="/">${site.wordmarkLines.map(l => `<span>${esc(l)}</span>`).join('')}</a>
+  <a class="mark" href="/">${esc(site.name)}</a>
   <nav class="main">
     <a href="/">Rankings</a>
     <a href="/best/security-questionnaire-automation/">Security questionnaires</a>
@@ -368,7 +368,7 @@ ${crumbs([{ name: 'Home', url: '/' }, { name: 'Tools', url: '/compare/' }, { nam
 </div></div>
 
 <section><div class="wrap">
-  ${t.scores ? `<div class="panel"><div class="scores" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:16px">${scoreBlock(t, cap)}</div></div>` : `
+  ${t.scores ? `<div class="panel scorepanel">${scoreBlock(t, cap)}</div>` : `
   <div class="panel"><strong>Not scored.</strong><p style="color:var(--graphite);margin-top:6px">${esc(t.notScoredReason)}</p></div>`}
 </div></section>
 

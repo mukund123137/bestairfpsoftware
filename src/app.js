@@ -41,11 +41,11 @@
       if (plate) {
         plate.className = 'rank' + (i === 0 ? '' : ' n');
         plate.querySelector('.d').textContent = String(i + 1).padStart(2, '0');
-        var mv = plate.querySelector('.mv');
+        var mv = el.querySelector('.mv');
         var orig = +el.dataset.baseRank;
         var od = orig - (i + 1);
         mv.className = 'mv' + (od > 0 ? ' up' : od < 0 ? ' dn' : '');
-        mv.textContent = od > 0 ? '▲ ' + od : od < 0 ? '▼ ' + (-od) : '–';
+        mv.textContent = od > 0 ? '▲' + od : od < 0 ? '▼' + (-od) : '';
         mv.title = od === 0 ? 'unchanged from the default rubric'
           : 'moves ' + Math.abs(od) + ' place(s) ' + (od > 0 ? 'up' : 'down') + ' under your weights';
       }
