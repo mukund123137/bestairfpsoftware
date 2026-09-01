@@ -208,23 +208,17 @@ ${noindex ? '<meta name="robots" content="noindex,nofollow">' : '<meta name="rob
 <script type="application/ld+json">${JSON.stringify(ld)}</script>
 </head><body>
 <a class="skip" href="#main">Skip to content</a>
-${site.draft ? `<div class="draft"><div class="wrap"><b>DRAFT BUILD</b><span>${esc(site.draftNote)}</span></div></div>` : ''}
-<div class="disc"><div class="wrap">
-  <span class="t"><strong>Independence:</strong> ${esc(site.operator.disclosure)}</span>
-  <a class="btn quiet sm" href="/ledger/">Read the ledger</a>
-</div></div>
 <header class="site"><div class="wrap">
   <a class="mark" href="/">${esc(site.name)}</a>
   <nav class="main">
     <a href="/">Rankings</a>
-    <a href="/best/security-questionnaire-automation/">Security questionnaires</a>
-    <a href="/best/proposal-management/">Proposal management</a>
     <a href="/compare/">Compare</a>
     <a href="/pricing/">Pricing</a>
     <a href="/methodology/">Methodology</a>
   </nav>
-  <div class="hdr-actions"><a class="btn ghost sm" href="/shortlist/" data-shortlist-count>Shortlist</a></div>
+  <div class="hdr-actions"><a class="btn sm" href="/shortlist/" data-shortlist-count>Shortlist</a></div>
 </div></header>
+${site.draft ? `<div class="draft"><div class="wrap"><b>Draft build</b> — ${esc(site.draftNote)}</div></div>` : ''}
 <main id="main">${body}</main>
 <footer class="site"><div class="wrap">
   <div class="fgrid">
@@ -279,7 +273,6 @@ const addUrl = (path, index) => { if (index && !site.draft) sitemapUrls.push(pat
 {
   const h = copy.home;
   const body = `
-${crumbs([{ name: 'Home', url: '/' }])}
 <div class="hero"><div class="wrap">
   <h1>${esc(h.h1)}</h1>
   <p class="sub">${esc(h.sub)}</p>
@@ -288,6 +281,7 @@ ${crumbs([{ name: 'Home', url: '/' }])}
     <span class="lbl">Reviewed by ${site.reviewers.map(r => esc(r.name)).join(' &amp; ')}</span>
     <span class="lbl"><a href="/methodology/">How we score</a></span>
   </div>
+  <p class="disclose">${esc(site.operator.disclosure)} <a href="/ledger/">Read the independence ledger</a>.</p>
   <div class="counters">
     <div><b class="num">${scored.length}</b><span class="lbl">tools ranked</span></div>
     <div><b class="num">${tools.reduce((a, t) => a + (t.claims?.length || 0), 0)}</b><span class="lbl">dated claims</span></div>

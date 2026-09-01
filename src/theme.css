@@ -91,10 +91,6 @@ h4{font-size:.98rem}
 .draft .wrap{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;font-size:12.5px}
 .draft b{font-weight:600}
 
-.disc{background:var(--sunk);border-bottom:1px solid var(--line)}
-.disc .wrap{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;padding:9px 28px}
-.disc .t{font-size:12.5px;color:var(--ink-2);flex:1;min-width:260px;line-height:1.5}
-.disc .t strong{color:var(--ink);font-weight:600}
 
 /* ---------------- header ---------------- */
 header.site{
@@ -443,10 +439,8 @@ body{font-feature-settings:"tnum" 1,"lnum" 1}
 }
 @media (max-width:640px){
   .weights .wrap{padding:12px 18px}
-  .disc .wrap{padding:9px 18px}
   .hero .wrap{padding:30px 18px 24px}
   footer.site .wrap{padding:30px 18px 40px}
-  .disc .t{min-width:0}
   .entry .hd,.entry .scores,.entry .verdict,.entry .facts,.entry .foot{padding-left:16px;padding-right:16px}
   .entry .split>div{padding-left:16px;padding-right:16px}
   .entry .byline{padding-left:16px;padding-right:16px}
@@ -466,3 +460,66 @@ main section .wrap > h3:first-child{margin-top:0}
 
 /* slightly tighter vertical rhythm between sections */
 main section{padding:30px 0}
+
+/* ============================================================
+   NAVBAR — one bar: brand left, links, single CTA right.
+   Replaces the stacked announcement + disclosure + header layers.
+   ============================================================ */
+:root{--nav-h:62px}
+
+header.site{
+  background:var(--surface);
+  backdrop-filter:none;
+  border-bottom:1px solid var(--line);
+  position:sticky;top:0;z-index:40;
+}
+header.site .wrap{
+  display:flex;align-items:center;gap:34px;
+  min-height:var(--nav-h);padding:0 28px;flex-wrap:nowrap;
+}
+.mark{
+  flex:none;font-family:"Source Serif 4",Georgia,serif;
+  font-size:16.5px;font-weight:600;letter-spacing:-.02em;color:var(--ink);
+}
+.mark:hover{opacity:.7;text-decoration:none}
+
+nav.main{display:flex;align-items:center;gap:4px;flex:0 1 auto}
+nav.main a{
+  font-size:14px;font-weight:500;color:var(--ink-2);
+  padding:7px 11px;border-radius:var(--r-sm);white-space:nowrap;
+}
+nav.main a:hover{color:var(--ink);background:var(--sunk-2);text-decoration:none}
+
+.hdr-actions{display:flex;align-items:center;gap:8px;flex:none;margin-left:auto}
+.hdr-actions .btn{padding:7px 15px;font-size:13.5px}
+
+@media (max-width:720px){
+  /* brand + CTA on the first row, links on their own scrollable row.
+     Without the wrap the nav collapsed to zero width and the CTA landed
+     between the brand and the links. */
+  header.site .wrap{flex-wrap:wrap;gap:12px;padding:9px 18px 4px;min-height:0}
+  .mark{order:1;font-size:15.5px}
+  .hdr-actions{order:2;margin-left:auto}
+  nav.main{order:3;flex-basis:100%;gap:0;overflow-x:auto;scrollbar-width:none;
+    margin:0 -18px;padding:0 12px 4px}
+  nav.main::-webkit-scrollbar{display:none}
+  nav.main a{padding:6px 8px;font-size:13.5px}
+}
+
+/* draft notice — one slim line under the bar, gone the moment draft:false */
+.draft{background:var(--red-tint);border-bottom:1px solid #F0D9D4;color:#8E3225;padding:7px 0}
+.draft .wrap{display:block;font-size:12.5px;line-height:1.45;padding-left:28px;padding-right:28px}
+.draft b{font-weight:600}
+@media (max-width:640px){.draft .wrap{padding-left:18px;padding-right:18px}}
+
+/* independence disclosure now sits in the hero, not in the chrome */
+.disclose{
+  margin-top:12px;font-size:12.5px;line-height:1.55;color:var(--ink-3);max-width:70ch;
+}
+.disclose a{color:var(--ink-2);text-decoration:underline;text-underline-offset:2px}
+.disclose a:hover{color:var(--blue)}
+
+/* sticky offsets follow the new bar height */
+.weights{top:var(--nav-h)}
+.entry{scroll-margin-top:calc(var(--nav-h) + 16px)}
+@media (max-width:900px){.weights{top:auto}}
