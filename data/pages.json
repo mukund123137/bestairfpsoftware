@@ -1,0 +1,143 @@
+{
+  "home": {
+    "h1": "Best AI RFP Software",
+    "sub": "Twelve tools for RFP response, proposal writing and security questionnaires — ranked on evidence you can check, not on vendor marketing.",
+    "intro": [
+      "Every directory in this category publishes a number. Almost none of them will tell you where the number came from. We do the opposite: each tool below carries a capability score, a separate evidence score showing how much of that capability we actually verified, and a dated source behind every claim we make.",
+      "The default ranking uses our rubric — autonomous drafting 40%, content governance 30%, workflow 20%, ease of use 10%. That weighting is an editorial position, not a fact, so the weights bar re-ranks the whole list to whatever matters to your team. A security-review team should drag governance up and watch the order change."
+    ],
+    "howWeRanked": [
+      "We score four dimensions, weight them, and publish the formula. Sub-scores are shown per tool so you can ignore ours and read the one you care about.",
+      "Every claim is tiered. T1 means we tested it ourselves; T4 means the vendor says so and we archived the page they said it on. The evidence score is the share of a tool's rating that rests on verified rather than claimed evidence.",
+      "Tools we cannot evidence are listed as not scored, with the reason, rather than quietly omitted."
+    ],
+    "faq": [
+      {
+        "q": "What is the best AI RFP software?",
+        "a": "On our default rubric the highest-scoring tool is listed first above, but the honest answer depends on what you are responding to. Teams handling high volumes of security questionnaires should weight content governance heavily; teams writing long-form public-sector bids should weight drafting and workflow. Use the weights bar to re-rank the list against your own priorities — the order changes materially."
+      },
+      {
+        "q": "How much does AI RFP software cost?",
+        "a": "Most vendors in this category do not publish list pricing and quote per seat or per response volume. Where a price is not publicly disclosed we say so rather than estimating. We also collect anonymised prices teams actually paid, shown as bands with the number of reports behind them, because published pricing and paid pricing are rarely the same number."
+      },
+      {
+        "q": "How do you rank these tools?",
+        "a": "Four weighted criteria — autonomous drafting (40%), content governance (30%), workflow and collaboration (20%) and ease of use (10%) — combined into a single 0–10 capability score. Separately we publish an evidence score from 0–100 showing how much of that rating rests on evidence we verified first-hand rather than vendor claims. The full method is on our methodology page."
+      },
+      {
+        "q": "Are these rankings sponsored?",
+        "a": "No. No payment changes any score, rank or inclusion decision, and every commercial relationship we have with any vendor listed here is published on our independence ledger. Tools affiliated with the site's operator are flagged on every page and can be excluded from every ranking with one click."
+      },
+      {
+        "q": "Can AI actually write an RFP response?",
+        "a": "It can produce a complete first draft from your existing content, and the better tools cite each answer back to the source document it came from. What none of them do reliably is notice that a source is out of date — which is why content governance carries 30% of our rubric and why our bench test deliberately plants conflicting answers in the library to see which tools catch them."
+      }
+    ]
+  },
+  "categories": {
+    "security-questionnaire-automation": {
+      "intro": "Security questionnaires break differently from RFPs. The content is repetitive, the accuracy bar is absolute, and the cost of a stale answer is a failed review rather than a lost point. So this ranking weights content governance at 45% — can the tool tell that an answer contradicts your current SOC 2 report, or that two library entries disagree with each other — and drops drafting to 30%. Speed matters far less than a tool that refuses to confidently repeat something that stopped being true eight months ago. The order below is materially different from our general ranking as a result. We also treat a Trust Center as a partial answer rather than a category feature: it deflects the standard reviews and does nothing for the bespoke enterprise questionnaire that arrives with 400 rows and a bank's own taxonomy. Where a tool claims deflection rates we record the claim at T4 and mark it unverified until we see the numbers from a customer rather than a case study.",
+      "faq": [
+        {
+          "q": "What is security questionnaire automation?",
+          "a": "Software that answers inbound security and vendor-risk questionnaires from your existing documentation, usually by matching questions against a curated answer library and generating drafts with citations back to source evidence such as a SOC 2 report or policy document."
+        },
+        {
+          "q": "Does a Trust Center replace questionnaire software?",
+          "a": "It deflects some reviews rather than replacing the work. A Trust Center lets buyers self-serve standard documentation, which removes the easiest questionnaires from the queue, but bespoke enterprise questionnaires still arrive and still need answering."
+        }
+      ]
+    },
+    "rfp-response-software": {
+      "intro": "This is the general-purpose ranking: tools built to take an inbound RFP, work out what it is actually asking for, and produce a response from content your organisation already has. It uses our default weighting — drafting 40%, governance 30%, workflow 20%, ease of use 10% — because for most response teams the binding constraint is genuinely the drafting, with governance close behind once the answer library grows past a few hundred entries. If your bottleneck is chasing subject-matter experts rather than writing, weight workflow up and the order shifts. One thing worth saying plainly before you read the order: nothing in this category yet responds to a complex RFP end to end without a competent human editing the result. Vendors who imply otherwise are marketing at you. What the better tools genuinely do is collapse the first draft from days to hours and keep every answer traceable to the source it came from, which is a smaller claim and a much more useful one.",
+      "faq": [
+        {
+          "q": "What does RFP response software do?",
+          "a": "It ingests an RFP or questionnaire, maps the requirements, drafts answers from a managed content library or connected source systems, and routes those drafts through review by the people who own each subject area."
+        }
+      ]
+    },
+    "proposal-management": {
+      "intro": "Proposal management is a different job from question answering. The work is coordination — owners, deadlines, review gates, version control, formatting to a client template — and the tools that win here are the ones that hold a large team to a submission date, not the ones that draft fastest. This ranking weights workflow and collaboration at 45% and drops drafting to 25%. Expect the order to look quite different from the general ranking; several tools that draft well are weak at the project management that long-form bids demand. There is also a buying trap here worth naming. Teams often shop for proposal management when the actual problem is that nobody owns the content, and no amount of workflow tooling fixes an answer library that three people maintain in different directions. If your submissions are late because of coordination, this ranking is the right one. If they are late because nobody can find the approved answer, weight governance up instead and read the general ranking.",
+      "faq": [
+        {
+          "q": "Is proposal management software the same as RFP response software?",
+          "a": "They overlap but optimise for different bottlenecks. Response software optimises for producing answers; proposal management software optimises for coordinating people, deadlines and document assembly. Larger bid teams usually need both, which is why several products in this list attempt to cover the whole span."
+        }
+      ]
+    }
+  },
+  "vs": [
+    {
+      "a": "responsive",
+      "b": "loopio",
+      "intro": "These two come up against each other more than any other pair in the category, and the choice usually comes down to what your team is bad at rather than what the software is good at. Both are library-first platforms with mature workflow tooling and large installed bases; neither is an autonomous drafting product in the way newer entrants are. Responsive tends to suit organisations standardising a large, formal response operation across several teams, where the review chain and the permissions model matter. Loopio tends to suit teams whose real bottleneck is getting subject-matter experts to answer at all, and whose content is already reasonably well curated. Where they genuinely differ is in how much ceremony the workflow imposes, and how each behaves when the answer library has grown past the point where anyone remembers what is in it.",
+      "faq": [
+        {
+          "q": "Is Responsive or Loopio better for security questionnaires?",
+          "a": "Both handle them, and both were built primarily for RFPs. Weight content governance heavily using the weights bar on this page before comparing, because that is where the difference shows up on repetitive security content rather than in drafting quality."
+        }
+      ]
+    },
+    {
+      "a": "arphie",
+      "b": "conveyor",
+      "intro": "This pairing is mostly a question of scope. Conveyor is built around the security review specifically, including a Trust Center intended to deflect a portion of inbound questionnaires before anyone has to answer them. Arphie is a broader response workspace that covers security questionnaires alongside general RFx work. If security reviews are the whole job and the volume is high, the narrower tool tends to fit the workflow better and the Trust Center has real deflection value. If questionnaires are one of several document types your team handles, running two products to cover the span is usually the worse outcome, and the broader workspace wins on total cost and context switching rather than on any individual feature. Worth checking before you decide either way: how each behaves when your evidence goes stale. Security answers rot faster than proposal content because they are pinned to certifications, sub-processors and policies that change on their own schedule, and a tool that confidently repeats last year's answer is worse than one that refuses to answer at all.",
+      "faq": [
+        {
+          "q": "Do I need a Trust Center as well as questionnaire automation?",
+          "a": "Only if enough of your inbound reviews are standard enough to be self-served. Teams with mostly bespoke enterprise questionnaires see far less deflection than the category's marketing implies."
+        }
+      ]
+    },
+    {
+      "a": "inventive-ai",
+      "b": "responsive",
+      "intro": "A generational comparison rather than a like-for-like one. Responsive represents the mature library-and-workflow model the category was built on: a curated answer library, formal review cycles and deep administrative control, with AI layered onto an existing structure. Inventive AI represents the newer approach of connecting directly to source systems and generating cited drafts, with less emphasis on a hand-curated library. The trade-off is real and it is not settled. The older model gives you control and auditability at the cost of the maintenance burden of keeping the library current; the newer model reduces that burden but makes you dependent on how well the tool detects that a connected source has gone stale. Which side of that trade you should take depends almost entirely on whether you have someone whose job is content curation.",
+      "faq": [
+        {
+          "q": "Is an answer library still necessary?",
+          "a": "For audit and consistency, usually yes. The newer tools reduce how much of it you must curate by hand, but every team we have spoken to still keeps a canonical set of approved answers for the questions that carry legal or security weight."
+        }
+      ]
+    }
+  ],
+  "vsUngated": [
+    [
+      "inventive-ai",
+      "loopio"
+    ],
+    [
+      "arphie",
+      "inventive-ai"
+    ],
+    [
+      "conveyor",
+      "quilt"
+    ],
+    [
+      "loopio",
+      "qorusdocs"
+    ],
+    [
+      "autogenai",
+      "responsive"
+    ],
+    [
+      "tribble",
+      "1up"
+    ],
+    [
+      "heyiris",
+      "arphie"
+    ],
+    [
+      "autorfp",
+      "inventive-ai"
+    ],
+    [
+      "responsive",
+      "qorusdocs"
+    ]
+  ]
+}

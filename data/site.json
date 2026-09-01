@@ -1,0 +1,141 @@
+{
+  "name": "BestAIRFPSoftware",
+  "wordmarkLines": [
+    "BEST AI RFP",
+    "SOFTWARE"
+  ],
+  "domain": "bestairfpsoftware.com",
+  "origin": "https://www.bestairfpsoftware.com",
+  "tagline": "Every score has a receipt.",
+  "description": "Independent, evidence-first rankings of AI RFP response, proposal and security-questionnaire software. Every score traces to a dated, archived source.",
+  "draft": true,
+  "draftNote": "PRE-LAUNCH DRAFT — all scores, prices and claims on this build are placeholders pending real review. The whole site is noindex until data/site.json sets \"draft\": false.",
+  "operator": {
+    "name": "[Operator Ltd]",
+    "disclosure": "This site is operated by [Operator Ltd]. Tools affiliated with the operator are flagged on every page, scored by an outside reviewer, and can be removed from every ranking with one click.",
+    "affiliatedSlugs": []
+  },
+  "rubric": [
+    {
+      "key": "drafting",
+      "label": "Autonomous drafting",
+      "weight": 40,
+      "desc": "Can it respond end to end, in context, with minimal human writing?"
+    },
+    {
+      "key": "governance",
+      "label": "Content governance",
+      "weight": 30,
+      "desc": "Does it detect conflicting or stale content and stay synced to sources?"
+    },
+    {
+      "key": "workflow",
+      "label": "Workflow & collaboration",
+      "weight": 20,
+      "desc": "Assignments, review cycles, SME chasing, tracking."
+    },
+    {
+      "key": "ux",
+      "label": "Ease of use",
+      "weight": 10,
+      "desc": "Interface, learning curve, onboarding, support."
+    }
+  ],
+  "tiers": {
+    "T1": {
+      "label": "Bench-tested",
+      "weight": 1,
+      "desc": "We ran the tool through our standard bench. Screenshots, timings, transcript on file."
+    },
+    "T2": {
+      "label": "Verified buyer",
+      "weight": 0.75,
+      "desc": "Named customer, work-email or contract verified, interview on file."
+    },
+    "T3": {
+      "label": "Third party",
+      "weight": 0.5,
+      "desc": "Gartner / G2 / Capterra aggregate, SOC 2 report, public filing."
+    },
+    "T4": {
+      "label": "Vendor claim",
+      "weight": 0.25,
+      "desc": "Docs, pricing page, demo or RFI response. Archived at capture."
+    },
+    "T5": {
+      "label": "Inferred",
+      "weight": 0.1,
+      "desc": "Reasoned from indirect signal. Never load-bearing on a headline number."
+    }
+  },
+  "decayMonths": {
+    "pricing": 6,
+    "ratings": 6,
+    "bench": 12,
+    "company": 18
+  },
+  "reviewers": [
+    {
+      "id": "an",
+      "name": "[Reviewer One]",
+      "role": "Lead reviewer",
+      "bio": "Twelve years running proposal and security-review teams in enterprise SaaS. Writes the bench protocol.",
+      "conflicts": "None declared.",
+      "sameAs": ""
+    },
+    {
+      "id": "ko",
+      "name": "[Reviewer Two]",
+      "role": "Reviewer, security questionnaires",
+      "bio": "Former security-review lead; handles DDQ and questionnaire testing.",
+      "conflicts": "None declared.",
+      "sameAs": ""
+    }
+  ],
+  "categories": [
+    {
+      "slug": "rfp-response-software",
+      "name": "RFP response software",
+      "h1": "Best RFP Response Software",
+      "weights": {
+        "drafting": 40,
+        "governance": 30,
+        "workflow": 20,
+        "ux": 10
+      }
+    },
+    {
+      "slug": "security-questionnaire-automation",
+      "name": "Security questionnaire automation",
+      "h1": "Best Security Questionnaire Automation Software",
+      "weights": {
+        "drafting": 30,
+        "governance": 45,
+        "workflow": 15,
+        "ux": 10
+      }
+    },
+    {
+      "slug": "proposal-management",
+      "name": "Proposal management",
+      "h1": "Best Proposal Management Software",
+      "weights": {
+        "drafting": 25,
+        "governance": 20,
+        "workflow": 45,
+        "ux": 10
+      }
+    },
+    {
+      "slug": "ddq-software",
+      "name": "DDQ software",
+      "h1": "Best DDQ Software",
+      "weights": {
+        "drafting": 30,
+        "governance": 40,
+        "workflow": 20,
+        "ux": 10
+      }
+    }
+  ]
+}

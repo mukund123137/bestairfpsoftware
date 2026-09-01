@@ -1,0 +1,12 @@
+{
+  "name": "bestairfpsoftware",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "BestAIRFPSoftware — evidence-first ranked directory of AI RFP and proposal tools",
+  "scripts": {
+    "build": "node build.mjs",
+    "serve": "node build.mjs && node --run-serve 2>/dev/null || (node build.mjs && npx --yes serve dist)",
+    "dev": "node build.mjs && node server.mjs"
+  }
+}
