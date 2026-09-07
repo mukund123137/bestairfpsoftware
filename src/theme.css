@@ -550,3 +550,9 @@ nav.main a:hover{color:var(--ink);background:var(--sunk-2);text-decoration:none}
 /* at-a-glance carries sentence-length cells ("Best for", pricing wording);
    give them room and let .tw scroll rather than squeezing rows four lines tall */
 table[data-glance]{min-width:900px}
+
+/* ---------------- brand mark ---------------- */
+.mark{display:inline-flex;align-items:center;gap:9px}
+.mark .logo{flex:none;color:var(--blue);display:block}
+.mark span{line-height:1}
+@media (max-width:400px){.mark{gap:7px}.mark .logo{width:20px;height:20px}}

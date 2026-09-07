@@ -12,6 +12,7 @@
   /* ---------------- weights + live re-rank ---------------- */
   var bar = document.querySelector('[data-weights]');
   var list = document.querySelector('[data-entries]');
+  var matrix = document.querySelector('table[data-rerank] tbody');
 
   function defaults() {
     var d = {};
@@ -48,10 +49,34 @@
     return Math.min(100, Math.max(0, Math.round(n)));
   }
 
+  /* Re-order any container of weighted rows: the ranked entry list, the compare
+     matrix, or both. Same scores, same rules, one code path. */
+  function reorder(container, sel, onEach) {
+    if (!container) return null;
+    var items = Array.prototype.slice.call(container.querySelectorAll(sel));
+    if (!items.length) return null;
+    items.forEach(function (el) { el._s = score(el, currentW); });
+    items.sort(function (a, b) { return b._s - a._s; });
+    applyRankingRules(items);
+    items.forEach(function (el, i) { if (onEach) onEach(el, i); container.appendChild(el); });
+    return items;
+  }
+
+  var currentW = null;
+
   function rerank(w, animate) {
-    if (!list) return;
+    currentW = w;
+
+    reorder(matrix, 'tr[data-slug]', function (row) {
+      var c = row.querySelector('[data-capcell]');
+      if (c) c.textContent = row._s.toFixed(1);
+      var cell = c && c.parentNode;
+      if (cell) cell.dataset.v = row._s.toFixed(1);
+    });
+
+    if (!list) { note(w); return; }
     var items = Array.prototype.slice.call(list.querySelectorAll('.entry[data-drafting]'));
-    if (!items.length) return;
+    if (!items.length) { note(w); return; }
     var before = items.map(function (el) { return el.dataset.slug; });
     items.forEach(function (el) { el._s = score(el, w); });
     items.sort(function (a, b) { return b._s - a._s; });
@@ -80,17 +105,29 @@
       list.appendChild(el);
     });
 
-    var note = document.querySelector('[data-rankednote]');
-    if (note) {
-      var isDefault = KEYS.every(function (k) { return w[k] === defaults()[k]; });
-      note.textContent = isDefault
-        ? 'Ranked by our default weighting. It is a default, not a verdict — type your own.'
-        : 'Ranked by your weights. Ours is only a default.';
+    note(w, items[0]);
+  }
+
+  /* The ranked list sits below the fold, so the control has to say what changed
+     or it reads as broken. */
+  function note(w, top) {
+    var el = document.querySelector('[data-rankednote]');
+    if (!el) return;
+    var d = defaults();
+    var isDefault = KEYS.every(function (k) { return w[k] === d[k]; });
+    if (isDefault) {
+      el.textContent = 'Ranked by our default weighting. It is a default, not a verdict — type your own.';
+      return;
     }
+    var name = top && top.querySelector('h3 a') && top.querySelector('h3 a').textContent;
+    el.textContent = name
+      ? 'Ranked by your weights — ' + name + ' now leads. Ours is only a default.'
+      : 'Ranked by your weights. Ours is only a default.';
   }
 
   if (bar) {
     var d = defaults();
+    currentW = d;
     var saved = load(LS_W, null) || {};
     var w = {};
     KEYS.forEach(function (k) { w[k] = clean(saved[k], d[k]); });

@@ -189,11 +189,20 @@ function entryCard(t, pos, baseRank) {
     ${alt ? `<a class="btn quiet sm" href="${esc(vsPath(t.slug, alt.slug))}">vs ${esc(alt.name)}</a>` : ''}
     <a class="btn quiet sm" href="${esc(t.url)}" rel="nofollow noopener" target="_blank">Visit site &#8599;</a>
   </div>
-  <p class="byline lbl">Reviewer ${esc(reviewerName(t.reviewer))} &middot; access: ${esc(t.access)} &middot; last verified ${esc(t.lastVerified)}</p>
+  <p class="byline lbl">${reviewerName(t.reviewer) ? 'Reviewer ' + esc(reviewerName(t.reviewer)) + ' &middot; ' : ''}access: ${esc(t.access)} &middot; last verified ${esc(t.lastVerified)}</p>
 </article>`;
 }
 
-const reviewerName = (id) => (site.reviewers.find(r => r.id === id) || {}).name || 'unassigned';
+/* data/*.json ships bracketed placeholders ("[Reviewer One]", "[Operator Ltd]").
+   Rendering those costs more credibility than the line was worth, so anything
+   derived from an unfilled placeholder is omitted until the real value lands. */
+const isPlaceholder = (v) => !v || /^\s*\[.*\]\s*$/.test(String(v));
+const realReviewers = site.reviewers.filter(r => !isPlaceholder(r.name));
+const hasOperator = !isPlaceholder(site.operator?.name);
+const reviewerName = (id) => {
+  const n = (site.reviewers.find(r => r.id === id) || {}).name;
+  return isPlaceholder(n) ? null : n;
+};
 
 /* A plain capability summary — deliberately alphabetical and position-free, so it
    reads as "what each tool does" rather than a second, competing leaderboard. */
@@ -222,7 +231,7 @@ const capabilityGuide = () => `<div class="capgrid">${RUB.map(r => `<div class="
 </div>`).join('')}</div>`;
 
 function weightsBar(weights) {
-  return `<div class="weights" data-weights hidden
+  return `<div class="weights" id="weights" data-weights hidden
   data-featured="${esc(RANK_CFG.featuredSlug || '')}" data-maxpos="${RANK_CFG.maxOverallPosition || 0}">
   <div class="wrap">
     <p class="wintro lbl" id="weights-help">How much each capability counts, in percent. Type any numbers from 0 to 100 &mdash; they are weighed against each other, so they need not add up to 100.</p>
@@ -253,6 +262,15 @@ const crumbs = (items) => `<nav class="crumbs" aria-label="Breadcrumb"><div clas
   .map((c, i) => i === items.length - 1 ? esc(c.name) : `<a href="${esc(c.url)}">${esc(c.name)}</a> / `)
   .join('')}</div></nav>`;
 
+/* Brand mark: three descending bars — a ranked list. Inline SVG so it costs no
+   request and inherits colour from the theme. */
+const LOGO = `<svg class="logo" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">
+  <rect width="24" height="24" rx="6.5" fill="currentColor"/>
+  <rect x="6" y="6.75" width="12" height="2.6" rx="1.3" fill="#fff"/>
+  <rect x="6" y="11.7" width="8.5" height="2.6" rx="1.3" fill="#fff" opacity=".78"/>
+  <rect x="6" y="16.65" width="5" height="2.6" rx="1.3" fill="#fff" opacity=".52"/>
+</svg>`;
+
 /* ------------------------------------------------------------------ layout */
 function layout({ path, title, desc, body, jsonld = [], index = true, updated = NOW }) {
   const canonical = site.origin + path;
@@ -280,12 +298,13 @@ ${noindex ? '<meta name="robots" content="noindex,nofollow">' : '<meta name="rob
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/theme.css">
 <script type="application/ld+json">${JSON.stringify(ld)}</script>
 </head><body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="site"><div class="wrap">
-  <a class="mark" href="/">${esc(site.name)}</a>
+  <a class="mark" href="/">${LOGO}<span>${esc(site.name)}</span></a>
   <nav class="main">
     <a href="/">Rankings</a>
     <a href="/compare/">Compare</a>
@@ -352,10 +371,10 @@ const addUrl = (path, index) => { if (index && !site.draft) sitemapUrls.push(pat
   <p class="sub">${esc(h.sub)}</p>
   <div class="byline">
     <span class="lbl">Updated ${esc(NOW)}</span>
-    <span class="lbl">Reviewed by ${site.reviewers.map(r => esc(r.name)).join(' &amp; ')}</span>
+    ${realReviewers.length ? `<span class="lbl">Reviewed by ${realReviewers.map(r => esc(r.name)).join(' &amp; ')}</span>` : ''}
     <span class="lbl"><a href="/methodology/">How we score</a></span>
   </div>
-  <p class="disclose">${esc(site.operator.disclosure)}</p>
+  ${hasOperator ? `<p class="disclose">${esc(site.operator.disclosure)}</p>` : ''}
   <div class="counters">
     <div><b class="num">${scored.length}</b><span class="lbl">tools ranked</span></div>
     <div><b class="num">${tools.reduce((a, t) => a + (t.claims?.length || 0), 0)}</b><span class="lbl">dated claims</span></div>
@@ -434,7 +453,7 @@ ${crumbs([{ name: 'Home', url: '/' }, { name: 'Tools', url: '/compare/' }, { nam
   <h1>${esc(t.name)} Review</h1>
   <p class="sub">${esc(t.oneLiner)}</p>
   <div class="byline">
-    <span class="lbl">Reviewer ${esc(reviewerName(t.reviewer))}</span>
+    ${reviewerName(t.reviewer) ? `<span class="lbl">Reviewer ${esc(reviewerName(t.reviewer))}</span>` : ''}
     <span class="lbl">Access: ${esc(t.access)}</span>
     <span class="lbl">Last verified ${esc(t.lastVerified)}</span>
     ${t.affiliated ? `<span class="tier t4">Affiliated with operator</span>` : ''}
@@ -613,14 +632,14 @@ ${crumbs([{ name: 'Home', url: '/' }, { name: 'Compare' }])}
 </div></div>
 ${weightsBar(defW)}
 <section><div class="wrap">
-  <div class="tw"><table data-sortable><thead><tr>
+  <div class="tw"><table data-sortable data-rerank><thead><tr>
     <th data-sort>Tool</th><th data-sort>Capability</th><th data-sort>Evidence</th>
     ${RUB.map(r => `<th data-sort title="${esc(r.desc)}">${esc(r.label)}</th>`).join('')}
     <th data-sort>Pricing</th><th data-sort>Bench</th>
   </tr></thead><tbody>
-  ${ranked.map(({ t, v }) => `<tr>
+  ${ranked.map(({ t, v }) => `<tr data-slug="${esc(t.slug)}" ${RUB.map(r => `data-${r.key}="${t.scores[r.key]}"`).join(' ')}>
     <td><a href="/tools/${t.slug}/"><strong>${esc(t.name)}</strong></a></td>
-    <td class="mono num" data-v="${v.toFixed(1)}"><strong>${v.toFixed(1)}</strong></td>
+    <td class="mono num" data-v="${v.toFixed(1)}"><strong data-capcell>${v.toFixed(1)}</strong></td>
     <td class="mono num" data-v="${evidenceOf(t)}">${evidenceOf(t)}</td>
     ${RUB.map(r => `<td class="mono num" data-v="${t.scores[r.key]}">${t.scores[r.key].toFixed(1)}</td>`).join('')}
     <td>${esc(priceLabel(t))}</td>
@@ -709,11 +728,11 @@ const staticPages = [
   ['/reviewers/', 'Our Reviewers', 'Who scores the tools on this site, what they have access to, and what they declare.', `
 <section><div class="wrap narrow">
   <div class="prose"><p>Anonymous scoring is the norm in this category. We think a name, an hour count and a declared conflict is the cheapest credibility a directory can buy, so every file on this site carries all three.</p></div>
-  ${site.reviewers.map(r => `<div class="panel" style="margin-top:14px">
+  ${realReviewers.length ? realReviewers.map(r => `<div class="panel" style="margin-top:14px">
     <strong>${esc(r.name)}</strong> <span class="lbl">${esc(r.role)}</span>
     <p style="color:var(--ink-2);margin-top:8px">${esc(r.bio)}</p>
     <p class="lbl" style="margin-top:8px">Conflicts: ${esc(r.conflicts)}</p>
-  </div>`).join('')}
+  </div>`).join('') : `<div class="empty" style="margin-top:16px">No reviewer has been published yet. Rather than show a name we cannot stand behind, this page stays empty until a named reviewer has completed a hands-on run &mdash; which is also why every tool currently carries an evidence strength of zero.</div>`}
 </div></section>`],
 
   ['/corrections/', 'Corrections', 'Every correction we have made, newest first. Append-only.', `
@@ -788,6 +807,13 @@ await writeFile(join(OUT, '404.html'), layout({ path: '/404', title: 'Page not f
   <p class="sub">That page does not exist. <a href="/">Back to the rankings</a>.</p></div></div>` }));
 
 /* ---- assets, sitemap, robots, llms.txt ---- */
+await writeFile(join(OUT, 'favicon.svg'),
+`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <rect width="24" height="24" rx="6.5" fill="#2E56E8"/>
+  <rect x="6" y="6.75" width="12" height="2.6" rx="1.3" fill="#fff"/>
+  <rect x="6" y="11.7" width="8.5" height="2.6" rx="1.3" fill="#fff" opacity=".78"/>
+  <rect x="6" y="16.65" width="5" height="2.6" rx="1.3" fill="#fff" opacity=".52"/>
+</svg>`);
 await cp(R('src/theme.css'), join(OUT, 'theme.css'));
 await cp(R('src/app.js'), join(OUT, 'app.js'));
 
