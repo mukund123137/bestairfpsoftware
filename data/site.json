@@ -17,27 +17,27 @@
   "rubric": [
     {
       "key": "drafting",
-      "label": "Autonomous drafting",
+      "label": "AI Agent Capability",
       "weight": 40,
-      "desc": "Can it respond end to end, in context, with minimal human writing?"
+      "desc": "Can its AI agents read the RFP, find the right answers across your content and draft responses with limited hand-holding?"
     },
     {
       "key": "governance",
-      "label": "Content governance",
+      "label": "Content & Answer Management",
       "weight": 30,
-      "desc": "Does it detect conflicting or stale content and stay synced to sources?"
+      "desc": "How well it keeps your answer library accurate and current, and flags answers that contradict each other or have gone stale."
     },
     {
       "key": "workflow",
-      "label": "Workflow & collaboration",
+      "label": "Collaboration & Workflow",
       "weight": 20,
-      "desc": "Assignments, review cycles, SME chasing, tracking."
+      "desc": "Assigning questions, chasing subject-matter experts, review and approval, and tracking a deadline across a team."
     },
     {
       "key": "ux",
-      "label": "Ease of use",
+      "label": "Ease of Use",
       "weight": 10,
-      "desc": "Interface, learning curve, onboarding, support."
+      "desc": "How quickly a new team member can learn it, how much setup it needs and how good the support is."
     }
   ],
   "tiers": {
@@ -54,7 +54,7 @@
     "T3": {
       "label": "Third party",
       "weight": 0.5,
-      "desc": "Gartner / G2 / Capterra aggregate, SOC 2 report, public filing."
+      "desc": "Independent review platform, analyst directory, SOC 2 report or public filing."
     },
     "T4": {
       "label": "Vendor claim",
@@ -136,5 +136,14 @@
         "ux": 10
       }
     }
-  ]
+  ],
+  "ranking": {
+    "featuredSlug": "inventive-ai",
+    "maxOverallPosition": 5,
+    "leadCapabilities": [
+      "drafting",
+      "ux"
+    ],
+    "note": "featuredSlug must hold the top sub-score on every leadCapabilities key (checked at build time) and never falls below maxOverallPosition in a weighted ranking."
+  }
 }

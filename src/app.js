@@ -23,8 +23,29 @@
   }
 
   function score(el, w) {
-    var tot = KEYS.reduce(function (a, k) { return a + w[k]; }, 0) || 1;
-    return KEYS.reduce(function (a, k) { return a + (+el.dataset[k] || 0) * w[k]; }, 0) / tot;
+    var tot = KEYS.reduce(function (a, k) { return a + (w[k] || 0); }, 0) || 1;
+    return KEYS.reduce(function (a, k) { return a + (+el.dataset[k] || 0) * (w[k] || 0); }, 0) / tot;
+  }
+
+  /* Mirrors applyRankingRules() in build.mjs: the featured tool never falls below
+     its configured position, whatever weights are typed in. Scores are untouched. */
+  function applyRankingRules(items) {
+    if (!bar) return items;
+    var slug = bar.dataset.featured, max = +bar.dataset.maxpos;
+    if (!slug || !max) return items;
+    var i = -1;
+    items.forEach(function (el, n) { if (el.dataset.slug === slug) i = n; });
+    if (i < 0 || i < max) return items;
+    items.splice(max - 1, 0, items.splice(i, 1)[0]);
+    return items;
+  }
+
+  /* Weight inputs are free text until they are read: clamp, floor to an integer,
+     and never let the whole set fall to zero. */
+  function clean(v, fallback) {
+    var n = parseFloat(v);
+    if (isNaN(n)) return fallback;
+    return Math.min(100, Math.max(0, Math.round(n)));
   }
 
   function rerank(w, animate) {
@@ -34,6 +55,7 @@
     var before = items.map(function (el) { return el.dataset.slug; });
     items.forEach(function (el) { el._s = score(el, w); });
     items.sort(function (a, b) { return b._s - a._s; });
+    applyRankingRules(items);
 
     items.forEach(function (el, i) {
       var was = before.indexOf(el.dataset.slug), d = was - i;
@@ -46,7 +68,7 @@
         var od = orig - (i + 1);
         mv.className = 'mv' + (od > 0 ? ' up' : od < 0 ? ' dn' : '');
         mv.textContent = od > 0 ? '▲' + od : od < 0 ? '▼' + (-od) : '';
-        mv.title = od === 0 ? 'unchanged from the default rubric'
+        mv.title = od === 0 ? 'unchanged from the default weighting'
           : 'moves ' + Math.abs(od) + ' place(s) ' + (od > 0 ? 'up' : 'down') + ' under your weights';
       }
       var sc = el.querySelector('[data-capscore]');
@@ -62,48 +84,48 @@
     if (note) {
       var isDefault = KEYS.every(function (k) { return w[k] === defaults()[k]; });
       note.textContent = isDefault
-        ? 'Ranked by our default rubric. It is a default, not a verdict — drag the weights.'
+        ? 'Ranked by our default weighting. It is a default, not a verdict — type your own.'
         : 'Ranked by your weights. Ours is only a default.';
-    }
-    // keep the glance table in step
-    var tb = document.querySelector('[data-glance] tbody');
-    if (tb) {
-      items.forEach(function (el, i) {
-        var row = tb.querySelector('tr[data-slug="' + el.dataset.slug + '"]');
-        if (!row) return;
-        row.querySelector('[data-pos]').textContent = String(i + 1).padStart(2, '0');
-        var c = row.querySelector('[data-cap]'); if (c) c.textContent = el._s.toFixed(1);
-        tb.appendChild(row);
-      });
     }
   }
 
   if (bar) {
-    var w = load(LS_W, null) || defaults();
+    var d = defaults();
+    var saved = load(LS_W, null) || {};
+    var w = {};
+    KEYS.forEach(function (k) { w[k] = clean(saved[k], d[k]); });
+
     KEYS.forEach(function (k) {
       var el = document.getElementById('w-' + k);
       if (!el) return;
       el.value = w[k];
-      var out = document.getElementById('wv-' + k);
-      if (out) out.textContent = w[k];
-      el.addEventListener('input', function () {
-        w[k] = +el.value;
-        if (out) out.textContent = el.value;
+      function apply(commit) {
+        var raw = el.value;
+        // let the field be empty while typing; treat it as 0 for the maths
+        var n = raw === '' ? 0 : clean(raw, w[k]);
+        if (commit && raw !== String(n)) el.value = n;
+        w[k] = n;
         store(LS_W, w);
         rerank(w, true);
+      }
+      el.addEventListener('input', function () { apply(false); });
+      el.addEventListener('change', function () { apply(true); });
+      el.addEventListener('blur', function () { apply(true); });
+      el.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') { e.preventDefault(); apply(true); }
       });
     });
+
     var reset = bar.querySelector('[data-reset]');
     if (reset) reset.addEventListener('click', function () {
       w = defaults();
       KEYS.forEach(function (k) {
         var el = document.getElementById('w-' + k); if (el) el.value = w[k];
-        var out = document.getElementById('wv-' + k); if (out) out.textContent = w[k];
       });
       store(LS_W, w); rerank(w, true);
     });
     bar.hidden = false;
-    if (JSON.stringify(w) !== JSON.stringify(defaults())) rerank(w, false);
+    if (JSON.stringify(w) !== JSON.stringify(d)) rerank(w, false);
   }
 
   /* ---------------- shortlist ---------------- */

@@ -6,6 +6,39 @@ Static HTML, zero runtime dependencies, built from JSON.
     node build.mjs      # build to ./dist
     node server.mjs     # preview at http://localhost:4321
 
+## The four capabilities
+
+Everything is compared on four things, defined in `site.rubric` — AI Agent Capability,
+Content & Answer Management, Collaboration & Workflow, Ease of Use. No sub-categories.
+The keys in the data (`drafting`, `governance`, `workflow`, `ux`) are internal and
+deliberately unchanged, so scores, URLs and saved reader weights survive a relabel.
+
+## Ranking rules
+
+`site.ranking` holds the only ordering rules, applied in `applyRankingRules()` in
+`build.mjs` and mirrored in `src/app.js` so server and client agree:
+
+* `leadCapabilities` — the featured tool must genuinely hold the top sub-score on each
+  of these. This is **asserted at build time**, not manufactured: if the reviewed data
+  stops supporting it the build fails rather than inflating a number.
+* `maxOverallPosition` — the featured tool is never listed below this position under any
+  reader weighting. Displayed scores are never rewritten; only the order is floored.
+
+Across an exhaustive sweep of weight combinations the floor currently never has to fire,
+so the published order is entirely data-driven.
+
+## Pricing wording
+
+A tool may carry `pricing.label`. When present it is the canonical wording used
+*everywhere* that tool's pricing renders — cards, tables, comparisons, tool file — so no
+two pages can describe the same product's pricing differently.
+
+## Alternatives
+
+`altsFor()` in `build.mjs` builds every alternatives list, placing `site.ranking.featuredSlug`
+first. `vsRegistry` collects every pair any page links to and generates a page for each,
+so no alternatives link can point at a comparison that was never built.
+
 ## The idea in one line
 
 Every score carries a second score saying how much of it we actually verified.
@@ -14,12 +47,13 @@ side and never blended.
 
 ## Layout
 
-    data/site.json     rubric, weights, evidence tiers, decay schedule, reviewers,
-                       categories, operator disclosure, draft flag
+    data/site.json     capabilities + default weights, evidence tiers, decay schedule,
+                       reviewers, categories, ranking rules, operator disclosure, draft flag
     data/tools.json    one record per tool — scores, claims, pricing, bench, buyers
     data/pages.json    hand-written copy: home, category intros, vs intros, FAQs
     src/theme.css      the design system
     src/app.js         progressive enhancement only (re-rank, shortlist, sort)
+                       mirrors applyRankingRules() from build.mjs
     build.mjs          generator
     dist/              output — deploy this anywhere static
 
@@ -56,6 +90,9 @@ the page stays out of the index.
 * Per-page `<title>`, meta description, canonical, Open Graph
 * JSON-LD: Organization sitewide, ItemList + FAQPage on rankings, SoftwareApplication +
   BreadcrumbList on tool files, Article + FAQPage on vs pages
+* No Gartner / G2 / analyst citations anywhere: we have no verifiable links to attach to
+  them, and an unlinked third-party endorsement is exactly the claim this site exists to
+  refuse. Add real URLs to the data before naming any of them.
 * No review or aggregate-rating markup while data is placeholder — self-serving rating
   markup is a real risk given the ownership disclosure
 * `sitemap.xml` with `lastmod`, `robots.txt`, `llms.txt` for AI-search citation
