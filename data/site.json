@@ -18,25 +18,25 @@
     {
       "key": "drafting",
       "label": "AI Agent Capability",
-      "weight": 40,
+      "weight": 50,
       "desc": "Can its AI agents read the RFP, find the right answers across your content and draft responses with limited hand-holding?"
     },
     {
       "key": "governance",
       "label": "Content & Answer Management",
-      "weight": 30,
+      "weight": 20,
       "desc": "How well it keeps your answer library accurate and current, and flags answers that contradict each other or have gone stale."
     },
     {
       "key": "workflow",
       "label": "Collaboration & Workflow",
-      "weight": 20,
+      "weight": 10,
       "desc": "Assigning questions, chasing subject-matter experts, review and approval, and tracking a deadline across a team."
     },
     {
       "key": "ux",
       "label": "Ease of Use",
-      "weight": 10,
+      "weight": 20,
       "desc": "How quickly a new team member can learn it, how much setup it needs and how good the support is."
     }
   ],
@@ -97,10 +97,10 @@
       "name": "RFP response software",
       "h1": "Best RFP Response Software",
       "weights": {
-        "drafting": 40,
-        "governance": 30,
-        "workflow": 20,
-        "ux": 10
+        "drafting": 50,
+        "governance": 20,
+        "workflow": 10,
+        "ux": 20
       }
     },
     {

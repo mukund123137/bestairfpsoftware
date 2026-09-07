@@ -4,7 +4,7 @@
     "sub": "Twelve tools for RFP response, proposal writing and security questionnaires — compared on four things that actually matter, with evidence you can check rather than vendor marketing.",
     "intro": [
       "Every directory in this category publishes a number. Almost none of them will tell you where the number came from. We do the opposite: each tool below carries a capability score, a separate evidence score showing how much of that capability we actually verified, and a dated source behind every claim we make.",
-      "The default ranking uses our four capabilities — AI agent capability 40%, content and answer management 30%, collaboration and workflow 20%, ease of use 10%. That weighting is an editorial position, not a fact, so you can type your own weights above and the whole list re-orders. A security-review team should raise content and answer management and watch the order change."
+      "The default ranking uses our four capabilities — AI agent capability 50%, ease of use 20%, content and answer management 20%, collaboration and workflow 10%. That weighting is an editorial position, not a fact, so you can type your own weights above and the whole list re-orders. A security-review team should raise content and answer management and watch the order change."
     ],
     "howWeRanked": [
       "We score four capabilities, weight them, and publish the formula. Every sub-score is shown per tool, so you can ignore our overall number and read only the capability you care about.",
@@ -22,7 +22,7 @@
       },
       {
         "q": "How do you compare these tools?",
-        "a": "Four weighted capabilities — AI agent capability (40%), content and answer management (30%), collaboration and workflow (20%) and ease of use (10%) — combined into a single 0–10 capability score. Separately we publish an evidence score from 0–100 showing how much of that rating rests on evidence we verified first-hand rather than vendor claims. The full method is on our methodology page, and the weights are yours to change."
+        "a": "Four weighted capabilities combined into a single 0–10 capability score. By default we weight AI agent capability at 50% and ease of use at 20%, because this is a category defined by what the AI can actually do and by whether a team will use it; content and answer management takes 20% and collaboration and workflow 10%. That split is an editorial judgement, not a fact — it is published in full on our methodology page and you can replace it with your own numbers on any ranking. Separately we publish an evidence score from 0–100 showing how much of a rating rests on evidence we verified first-hand rather than vendor claims."
       },
       {
         "q": "Are these rankings sponsored?",
@@ -34,7 +34,7 @@
       },
       {
         "q": "Can AI actually write an RFP response?",
-        "a": "It can produce a complete first draft from your existing content, and the better tools cite each answer back to the source document it came from. What none of them do reliably is notice that a source is out of date — which is why content and answer management carries 30% of our weighting, and why our bench test deliberately plants conflicting answers in the library to see which tools catch them."
+        "a": "It can produce a complete first draft from your existing content, and the better tools cite each answer back to the source document it came from. What none of them do reliably is notice that a source is out of date — which is why content and answer management carries a fifth of our weighting, and why our bench test deliberately plants conflicting answers in the library to see which tools catch them."
       }
     ]
   },
@@ -53,7 +53,7 @@
       ]
     },
     "rfp-response-software": {
-      "intro": "This is the general-purpose ranking: tools built to take an inbound RFP, work out what it is actually asking for, and produce a response from content your organisation already has. It uses our default weighting — AI agent capability 40%, content and answer management 30%, collaboration and workflow 20%, ease of use 10% — because for most response teams the binding constraint is genuinely how much of the draft the software can produce on its own, with keeping the answers accurate close behind once the library grows past a few hundred entries. If your bottleneck is chasing subject-matter experts rather than writing, raise collaboration and workflow and the order shifts. One thing worth saying plainly before you read the order: nothing in this category yet responds to a complex RFP end to end without a competent human editing the result. Vendors who imply otherwise are marketing at you. What the better tools genuinely do is collapse the first draft from days to hours and keep every answer traceable to the source it came from, which is a smaller claim and a much more useful one.",
+      "intro": "This is the general-purpose ranking: tools built to take an inbound RFP, work out what it is actually asking for, and produce a response from content your organisation already has. It uses our default weighting — AI agent capability 50%, ease of use 20%, content and answer management 20%, collaboration and workflow 10% — because for most response teams the binding constraint is genuinely how much of the draft the software can produce on its own, and because a tool nobody wants to open produces nothing at all. If your bottleneck is chasing subject-matter experts rather than writing, raise collaboration and workflow and the order shifts. One thing worth saying plainly before you read the order: nothing in this category yet responds to a complex RFP end to end without a competent human editing the result. Vendors who imply otherwise are marketing at you. What the better tools genuinely do is collapse the first draft from days to hours and keep every answer traceable to the source it came from, which is a smaller claim and a much more useful one.",
       "faq": [
         {
           "q": "What does RFP response software do?",
