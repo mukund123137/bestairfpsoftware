@@ -545,3 +545,18 @@ table[data-glance]{min-width:900px}
 .mark .logo{flex:none;color:var(--blue);display:block}
 .mark span{line-height:1}
 @media (max-width:400px){.mark{gap:7px}.mark .logo{width:20px;height:20px}}
+
+/* ---------------- table row movement ---------------- */
+/* rows re-order when the weights change; without a cue the jump is invisible */
+.tname{display:inline-flex;align-items:baseline;gap:7px}
+td .mv{font-size:10px;font-weight:600;line-height:1;flex:none}
+tbody tr.moved{animation:rowmove .75s ease-out}
+@keyframes rowmove{
+  0%{background:var(--blue-tint)}
+  70%{background:var(--blue-tint)}
+  100%{background:transparent}
+}
+@media (prefers-reduced-motion:reduce){
+  tbody tr.moved{animation:none}
+  td .mv{outline:1px solid currentColor;outline-offset:2px;border-radius:2px}
+}

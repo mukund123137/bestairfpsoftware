@@ -213,14 +213,14 @@ function glanceTable(ranked) {
     ${RUB.map(r => `<th data-sort title="${esc(r.desc)}">${esc(r.label)}</th>`).join('')}
     <th data-sort>Best for</th><th data-sort>Pricing</th>
   </tr></thead><tbody>
-  ${ranked.map(({ t }) => `<tr data-slug="${esc(t.slug)}" ${RUB.map(r => `data-${r.key}="${t.scores[r.key]}"`).join(' ')}>
-    <td><a href="/tools/${esc(t.slug)}/"><strong>${esc(t.name)}</strong></a></td>
+  ${ranked.map(({ t }, i) => `<tr data-slug="${esc(t.slug)}" data-base-rank="${i + 1}" ${RUB.map(r => `data-${r.key}="${t.scores[r.key]}"`).join(' ')}>
+    <td><span class="tname"><a href="/tools/${esc(t.slug)}/"><strong>${esc(t.name)}</strong></a><span class="mv"></span></span></td>
     ${RUB.map(r => `<td class="mono num" data-v="${t.scores[r.key]}">${t.scores[r.key].toFixed(1)}</td>`).join('')}
     <td>${esc((t.goodFor || [])[0] || '—')}</td>
     <td>${esc(priceLabel(t))}</td>
   </tr>`).join('')}
   </tbody></table></div>
-  <p class="lbl" style="margin-top:10px">Each capability is scored 0–10, strongest overall first. Sort any column to see who leads on the one you care about; our overall weighted score for each tool is further down the page.</p>`;
+  <p class="lbl" style="margin-top:10px">Each capability is scored 0–10, strongest overall first, and the order follows the weights above &mdash; arrows show what moved. Sort any column to see who leads on the one you care about; our overall weighted score for each tool is further down the page.</p>`;
 }
 
 /* Plain-English explainer for the four capabilities — replaces the old taxonomy. */
@@ -236,7 +236,7 @@ function weightsBar(weights) {
     <p class="wintro lbl" id="weights-help">How much each capability counts, in percent. Drag to set your own &mdash; they are weighed against each other, so they need not add up to 100.</p>
     ${RUB.map(r => `<div class="sl">
       <label for="w-${r.key}" title="${esc(r.desc)}">${esc(r.label)} <span id="wv-${r.key}" class="num">${weights[r.key]}%</span></label>
-      <input type="range" id="w-${r.key}" min="0" max="60" step="5"
+      <input type="range" id="w-${r.key}" min="0" max="100" step="5"
         value="${weights[r.key]}" data-default="${weights[r.key]}" aria-describedby="weights-help">
     </div>`).join('')}
     <div class="meta">
@@ -632,8 +632,8 @@ ${weightsBar(defW)}
     ${RUB.map(r => `<th data-sort title="${esc(r.desc)}">${esc(r.label)}</th>`).join('')}
     <th data-sort>Pricing</th><th data-sort>Bench</th>
   </tr></thead><tbody>
-  ${ranked.map(({ t, v }) => `<tr data-slug="${esc(t.slug)}" ${RUB.map(r => `data-${r.key}="${t.scores[r.key]}"`).join(' ')}>
-    <td><a href="/tools/${t.slug}/"><strong>${esc(t.name)}</strong></a></td>
+  ${ranked.map(({ t, v }, i) => `<tr data-slug="${esc(t.slug)}" data-base-rank="${i + 1}" ${RUB.map(r => `data-${r.key}="${t.scores[r.key]}"`).join(' ')}>
+    <td><span class="tname"><a href="/tools/${t.slug}/"><strong>${esc(t.name)}</strong></a><span class="mv"></span></span></td>
     <td class="mono num" data-v="${v.toFixed(1)}"><strong data-capcell>${v.toFixed(1)}</strong></td>
     <td class="mono num" data-v="${evidenceOf(t)}">${evidenceOf(t)}</td>
     ${RUB.map(r => `<td class="mono num" data-v="${t.scores[r.key]}">${t.scores[r.key].toFixed(1)}</td>`).join('')}

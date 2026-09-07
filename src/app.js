@@ -43,10 +43,12 @@
 
   /* Weight inputs are free text until they are read: clamp, floor to an integer,
      and never let the whole set fall to zero. */
-  function clean(v, fallback) {
+  function clean(v, fallback, el) {
     var n = parseFloat(v);
     if (isNaN(n)) return fallback;
-    return Math.min(100, Math.max(0, Math.round(n)));
+    var lo = el && el.min !== '' ? +el.min : 0;
+    var hi = el && el.max !== '' ? +el.max : 100;
+    return Math.min(hi, Math.max(lo, Math.round(n)));
   }
 
   /* Re-order any container of weighted rows: the ranked entry list, the compare
@@ -58,11 +60,34 @@
     items.forEach(function (el) { el._s = score(el, currentW); });
     items.sort(function (a, b) { return b._s - a._s; });
     applyRankingRules(items);
-    items.forEach(function (el, i) { if (onEach) onEach(el, i); container.appendChild(el); });
+    items.forEach(function (el, i) {
+      if (onEach) onEach(el, i);
+      markMove(el, i);
+      container.appendChild(el);
+    });
     return items;
   }
 
   var currentW = null;
+
+  /* A row that silently jumps two places reads as a row that did not move.
+     Same up/down indicator the ranked cards carry, plus a brief highlight. */
+  function markMove(el, i) {
+    var mv = el.querySelector('.mv');
+    var base = +el.dataset.baseRank;
+    if (!mv || !base) return;
+    var d = base - (i + 1);
+    var was = mv.textContent;
+    mv.className = 'mv' + (d > 0 ? ' up' : d < 0 ? ' dn' : '');
+    mv.textContent = d > 0 ? '\u25B2' + d : d < 0 ? '\u25BC' + (-d) : '';
+    mv.title = d === 0 ? 'unchanged from the default weighting'
+      : 'moves ' + Math.abs(d) + ' place(s) ' + (d > 0 ? 'up' : 'down') + ' under your weights';
+    if (was !== mv.textContent) {
+      el.classList.remove('moved');
+      void el.offsetWidth;            // restart the animation
+      el.classList.add('moved');
+    }
+  }
 
   function rerank(w, animate) {
     currentW = w;
@@ -121,9 +146,11 @@
       el.textContent = 'Ranked by our default weighting. It is a default, not a verdict — drag to set your own.';
       return;
     }
-    var name = top && top.querySelector('h3 a') && top.querySelector('h3 a').textContent;
-    el.textContent = name
-      ? 'Ranked by your weights — ' + name + ' now leads. Ours is only a default.'
+    // only call out a new leader when the lead actually changed hands
+    var changed = top && top.dataset.baseRank !== '1';
+    var link = top && top.querySelector('h3 a');
+    el.textContent = (changed && link)
+      ? 'Ranked by your weights — ' + link.textContent + ' now leads. Ours is only a default.'
       : 'Ranked by your weights. Ours is only a default.';
   }
 
@@ -132,7 +159,9 @@
     currentW = d;
     var saved = load(LS_W, null) || {};
     var w = {};
-    KEYS.forEach(function (k) { w[k] = clean(saved[k], d[k]); });
+    KEYS.forEach(function (k) {
+      w[k] = clean(saved[k], d[k], document.getElementById('w-' + k));
+    });
 
     KEYS.forEach(function (k) {
       var el = document.getElementById('w-' + k);
@@ -141,7 +170,7 @@
       var out = document.getElementById('wv-' + k);
       if (out) out.textContent = w[k] + '%';
       function apply() {
-        w[k] = clean(el.value, w[k]);
+        w[k] = clean(el.value, w[k], el);
         if (out) out.textContent = w[k] + '%';
         store(LS_W, w);
         rerank(w, true);
