@@ -4,7 +4,7 @@
     "sub": "Twelve tools for RFP response, proposal writing and security questionnaires — compared on four things that actually matter, with evidence you can check rather than vendor marketing.",
     "intro": [
       "Every directory in this category publishes a number. Almost none of them will tell you where the number came from. We do the opposite: each tool below carries a capability score, a separate evidence score showing how much of that capability we actually verified, and a dated source behind every claim we make.",
-      "The default ranking uses our four capabilities — AI agent capability 50%, ease of use 20%, content and answer management 20%, collaboration and workflow 10%. That weighting is an editorial position, not a fact, so you can type your own weights above and the whole list re-orders. A security-review team should raise content and answer management and watch the order change."
+      "The default ranking uses our four capabilities — AI agent capability 50%, ease of use 20%, content and answer management 20%, collaboration and workflow 10%. That weighting is an editorial position, not a fact, so you can drag the weights above and the whole list re-orders. A security-review team should raise content and answer management and watch the order change."
     ],
     "howWeRanked": [
       "We score four capabilities, weight them, and publish the formula. Every sub-score is shown per tool, so you can ignore our overall number and read only the capability you care about.",

@@ -207,21 +207,20 @@ const reviewerName = (id) => {
 /* A plain capability summary — deliberately alphabetical and position-free, so it
    reads as "what each tool does" rather than a second, competing leaderboard. */
 function glanceTable(ranked) {
-  const rows = ranked.slice().sort((a, b) => a.t.name.localeCompare(b.t.name));
-  return `<div class="tw"><table data-sortable data-glance>
+  return `<div class="tw"><table data-sortable data-rerank data-glance>
   <thead><tr>
     <th data-sort>Tool</th>
     ${RUB.map(r => `<th data-sort title="${esc(r.desc)}">${esc(r.label)}</th>`).join('')}
     <th data-sort>Best for</th><th data-sort>Pricing</th>
   </tr></thead><tbody>
-  ${rows.map(({ t }) => `<tr data-slug="${esc(t.slug)}">
+  ${ranked.map(({ t }) => `<tr data-slug="${esc(t.slug)}" ${RUB.map(r => `data-${r.key}="${t.scores[r.key]}"`).join(' ')}>
     <td><a href="/tools/${esc(t.slug)}/"><strong>${esc(t.name)}</strong></a></td>
     ${RUB.map(r => `<td class="mono num" data-v="${t.scores[r.key]}">${t.scores[r.key].toFixed(1)}</td>`).join('')}
     <td>${esc((t.goodFor || [])[0] || '—')}</td>
     <td>${esc(priceLabel(t))}</td>
   </tr>`).join('')}
   </tbody></table></div>
-  <p class="lbl" style="margin-top:10px">Each capability is scored 0–10. Sort any column to see who leads on the one you care about; our overall weighted score for each tool is further down the page.</p>`;
+  <p class="lbl" style="margin-top:10px">Each capability is scored 0–10, strongest overall first. Sort any column to see who leads on the one you care about; our overall weighted score for each tool is further down the page.</p>`;
 }
 
 /* Plain-English explainer for the four capabilities — replaces the old taxonomy. */
@@ -234,18 +233,14 @@ function weightsBar(weights) {
   return `<div class="weights" id="weights" data-weights hidden
   data-featured="${esc(RANK_CFG.featuredSlug || '')}" data-maxpos="${RANK_CFG.maxOverallPosition || 0}">
   <div class="wrap">
-    <p class="wintro lbl" id="weights-help">How much each capability counts, in percent. Type any numbers from 0 to 100 &mdash; they are weighed against each other, so they need not add up to 100.</p>
+    <p class="wintro lbl" id="weights-help">How much each capability counts, in percent. Drag to set your own &mdash; they are weighed against each other, so they need not add up to 100.</p>
     ${RUB.map(r => `<div class="sl">
-      <label for="w-${r.key}" title="${esc(r.desc)}">${esc(r.label)}</label>
-      <div class="wfield">
-        <input type="number" id="w-${r.key}" name="w-${r.key}" inputmode="numeric"
-          min="0" max="100" step="1" value="${weights[r.key]}" data-default="${weights[r.key]}"
-          aria-describedby="weights-help">
-        <span class="unit" aria-hidden="true">%</span>
-      </div>
+      <label for="w-${r.key}" title="${esc(r.desc)}">${esc(r.label)} <span id="wv-${r.key}" class="num">${weights[r.key]}%</span></label>
+      <input type="range" id="w-${r.key}" min="0" max="60" step="5"
+        value="${weights[r.key]}" data-default="${weights[r.key]}" aria-describedby="weights-help">
     </div>`).join('')}
     <div class="meta">
-      <span class="lbl" data-rankednote>Ranked by our default weighting. It is a default, not a verdict &mdash; type your own.</span>
+      <span class="lbl" data-rankednote>Ranked by our default weighting. It is a default, not a verdict &mdash; drag to set your own.</span>
       <button class="btn quiet sm" data-reset type="button">Reset weights</button>
     </div>
   </div>
@@ -692,7 +687,7 @@ const staticPages = [
   <div class="tw" style="margin-top:12px"><table><thead><tr><th>Capability</th><th>Default weight</th><th>What it measures, and why it matters</th></tr></thead><tbody>
   ${RUB.map(r => `<tr><td><strong>${esc(r.label)}</strong></td><td class="mono num">${r.weight}%</td><td>${esc(r.desc)}</td></tr>`).join('')}
   </tbody></table></div>
-  <div class="prose"><p style="margin-top:12px">That weighting is an editorial position, not a fact. Every ranking on this site carries a weights bar where you type your own percentages, the order recomputes immediately, and your numbers persist as you move around the site.</p></div>
+  <div class="prose"><p style="margin-top:12px">That weighting is an editorial position, not a fact. Every ranking on this site carries a weights bar: drag the sliders, the order recomputes immediately across the ranking and the tables, and your weights persist as you move around the site.</p></div>
   <div class="prose"><p style="margin-top:12px">One ordering rule is applied on top of the weighted score and is stated here rather than buried: Inventive AI, which leads both AI agent capability and ease of use on raw sub-scores, is never listed below fifth overall. Every published sub-score is the reviewed number; nothing is inflated to produce that position.</p></div>
 
   <div class="shead" style="margin-top:30px"><h2>Evidence tiers</h2></div>

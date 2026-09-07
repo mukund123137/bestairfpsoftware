@@ -12,7 +12,7 @@
   /* ---------------- weights + live re-rank ---------------- */
   var bar = document.querySelector('[data-weights]');
   var list = document.querySelector('[data-entries]');
-  var matrix = document.querySelector('table[data-rerank] tbody');
+  var matrices = Array.prototype.slice.call(document.querySelectorAll('table[data-rerank] tbody'));
 
   function defaults() {
     var d = {};
@@ -67,11 +67,13 @@
   function rerank(w, animate) {
     currentW = w;
 
-    reorder(matrix, 'tr[data-slug]', function (row) {
-      var c = row.querySelector('[data-capcell]');
-      if (c) c.textContent = row._s.toFixed(1);
-      var cell = c && c.parentNode;
-      if (cell) cell.dataset.v = row._s.toFixed(1);
+    matrices.forEach(function (tb) {
+      reorder(tb, 'tr[data-slug]', function (row) {
+        var c = row.querySelector('[data-capcell]');
+        if (!c) return;                       // glance table shows sub-scores only
+        c.textContent = row._s.toFixed(1);
+        if (c.parentNode) c.parentNode.dataset.v = row._s.toFixed(1);
+      });
     });
 
     if (!list) { note(w); return; }
@@ -116,7 +118,7 @@
     var d = defaults();
     var isDefault = KEYS.every(function (k) { return w[k] === d[k]; });
     if (isDefault) {
-      el.textContent = 'Ranked by our default weighting. It is a default, not a verdict — type your own.';
+      el.textContent = 'Ranked by our default weighting. It is a default, not a verdict — drag to set your own.';
       return;
     }
     var name = top && top.querySelector('h3 a') && top.querySelector('h3 a').textContent;
@@ -136,21 +138,16 @@
       var el = document.getElementById('w-' + k);
       if (!el) return;
       el.value = w[k];
-      function apply(commit) {
-        var raw = el.value;
-        // let the field be empty while typing; treat it as 0 for the maths
-        var n = raw === '' ? 0 : clean(raw, w[k]);
-        if (commit && raw !== String(n)) el.value = n;
-        w[k] = n;
+      var out = document.getElementById('wv-' + k);
+      if (out) out.textContent = w[k] + '%';
+      function apply() {
+        w[k] = clean(el.value, w[k]);
+        if (out) out.textContent = w[k] + '%';
         store(LS_W, w);
         rerank(w, true);
       }
-      el.addEventListener('input', function () { apply(false); });
-      el.addEventListener('change', function () { apply(true); });
-      el.addEventListener('blur', function () { apply(true); });
-      el.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter') { e.preventDefault(); apply(true); }
-      });
+      el.addEventListener('input', apply);
+      el.addEventListener('change', apply);
     });
 
     var reset = bar.querySelector('[data-reset]');
@@ -158,6 +155,7 @@
       w = defaults();
       KEYS.forEach(function (k) {
         var el = document.getElementById('w-' + k); if (el) el.value = w[k];
+        var out = document.getElementById('wv-' + k); if (out) out.textContent = w[k] + '%';
       });
       store(LS_W, w); rerank(w, true);
     });

@@ -287,27 +287,16 @@ td a:hover{text-decoration:underline}
   letter-spacing:0;text-transform:none;
 }
 .weights .sl label{
-  display:block;font-size:12px;font-weight:500;line-height:1.35;
+  display:flex;justify-content:space-between;align-items:baseline;gap:8px;
+  font-size:12px;font-weight:500;line-height:1.35;
   letter-spacing:0;text-transform:none;color:var(--ink-2);
 }
-/* weight entry: a plain number box, so the value can be typed exactly */
-.weights .wfield{
-  display:flex;align-items:center;gap:6px;margin-top:5px;
-  border:1px solid var(--line-2);background:var(--surface);border-radius:var(--r-sm);
-  padding:0 9px 0 0;max-width:110px;
+.weights .sl label .num{
+  flex:none;color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums;
 }
-.weights .wfield:focus-within{border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-tint)}
-.weights .wfield input[type=number]{
-  width:100%;min-width:0;border:0;background:transparent;outline:none;
-  font:inherit;font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink);
-  padding:7px 0 7px 10px;-moz-appearance:textfield;
+.weights input[type=range]{
+  display:block;width:100%;accent-color:var(--blue);margin:7px 0 0;height:4px;cursor:pointer;
 }
-.weights .wfield input[type=number]::-webkit-outer-spin-button,
-.weights .wfield input[type=number]::-webkit-inner-spin-button{
-  -webkit-appearance:none;margin:0;
-}
-.weights .wfield input[type=number]:focus-visible{outline:none}
-.weights .wfield .unit{font-size:12px;font-weight:600;color:var(--ink-3);flex:none}
 .weights .meta{display:flex;flex-direction:column;gap:7px;align-items:flex-start}
 .weights .meta .lbl{line-height:1.45}
 @media (max-width:900px){.weights{position:static}.weights .wrap{padding:12px 18px}}
@@ -386,9 +375,9 @@ footer.site .wrap{padding:36px 28px 44px}
   .weights .meta{flex-direction:column;align-items:flex-start;gap:9px}
 }
 @media (max-width:520px){
-  .weights .wrap{grid-template-columns:repeat(2,1fr);gap:10px 14px}
-  .weights .wfield{max-width:none}
-  .weights .wfield input[type=number]{font-size:16px;padding:8px 0 8px 10px} /* 16px stops iOS zooming on focus */
+  .weights .wrap{grid-template-columns:repeat(2,1fr);gap:12px 14px}
+  /* a comfortable drag target on touch */
+  .weights input[type=range]{height:6px;margin-top:9px}
 }
 
 /* capability bar: quieter, narrower — a cue, not an instrument panel */
